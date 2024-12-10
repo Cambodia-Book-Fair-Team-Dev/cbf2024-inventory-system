@@ -11,7 +11,7 @@ export default function Navbar() {
       <div className="container mx-auto flex justify-between items-center">
         <Link
           to="/"
-          className="text-xl flex items-center space-x-1"
+          className="text-xl flex items-center space-x-1 font-medium"
         >
           <img src="cbflogo_full.png" alt="Logo" className="h-12 w-12" />
           <span>បញ្ជីអីវ៉ាន់</span>
