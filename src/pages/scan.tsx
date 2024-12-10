@@ -1,7 +1,5 @@
 import { useState } from "react";
 import { Scanner } from "@yudiel/react-qr-scanner";
-import { useDropzone } from "react-dropzone";
-import jsQR from "jsqr";
 import axios from "axios";
 import { API_BASE_URL } from "../api/config";
 
@@ -11,27 +9,68 @@ const QRCodeScanner = () => {
   const [borrowedItems, setBorrowedItems] = useState<any[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [mode, setMode] = useState<"borrow" | "return" | null>(null);
+  const [scanningMode, setScanningMode] = useState<"volunteer" | "item" | null>(
+    "volunteer"
+  );
+  const [, setCurrentItem] = useState<{
+    code: string;
+    qty: number;
+  } | null>(null);
 
   const handleScan = async (detectedCodes: Array<{ rawValue: string }>) => {
     if (detectedCodes.length > 0) {
-      try {
-        const scannedData = JSON.parse(detectedCodes[0].rawValue);
-        const volunteerId = scannedData.id;
-        setScannedResult(volunteerId);
-        setError(null);
+      const rawValue = detectedCodes[0].rawValue;
 
+      if (scanningMode === "volunteer") {
+        // Handle Volunteer QR Code
         try {
-          const response = await axios.get(
-            `${API_BASE_URL}/scan/volunteer/${volunteerId}`
-          );
-          setVolunteerInfo(response.data);
-        } catch (error) {
-          console.error("Error fetching volunteer information:", error);
-          setError("Error fetching volunteer information.");
+          const scannedData = JSON.parse(rawValue);
+          const volunteerId = scannedData.id;
+          setScannedResult(volunteerId);
+          setError(null);
+
+          try {
+            const response = await axios.get(
+              `${API_BASE_URL}/scan/volunteer/${volunteerId}`
+            );
+            setVolunteerInfo(response.data);
+            setScanningMode(null); // Stop scanning
+          } catch (error) {
+            console.error("Error fetching volunteer information:", error);
+            setError("Error fetching volunteer information.");
+          }
+        } catch (parseError) {
+          console.error("Error parsing QR code data:", parseError);
+          setError("Invalid QR code data.");
         }
-      } catch (parseError) {
-        console.error("Error parsing QR code data:", parseError);
-        setError("Invalid QR code data.");
+      } else if (scanningMode === "item") {
+        // Handle Item Barcode
+        try {
+          setCurrentItem({ code: rawValue, qty: 0 }); // Assume qty is set later
+          const qtyInput = prompt(`Enter quantity for item ${rawValue}:`);
+          const qty = qtyInput ? parseInt(qtyInput, 10) : NaN;
+
+          if (isNaN(qty) || qty <= 0) {
+            setError("Invalid quantity.");
+            return;
+          }
+
+          // Make Borrow Request
+          const response = await axios.post(
+            `${API_BASE_URL}/volunteer/${scannedResult}/borrow`,
+            {
+              item_code: rawValue,
+              qty: qty,
+            }
+          );
+
+          alert("Item borrowed successfully!");
+          console.log("Borrow response:", response.data);
+          setScanningMode(null); // Stop scanning after borrow
+        } catch (error) {
+          console.error("Error borrowing item:", error);
+          setError("Error borrowing item.");
+        }
       }
     }
   };
@@ -41,36 +80,14 @@ const QRCodeScanner = () => {
     setError("Error scanning QR code.");
   };
 
-  const handleBorrow = async () => {
+  const handleBorrow = () => {
     setMode("borrow");
-    try {
-      const itemCode = prompt("Enter the barcode of the item:");
-      const qtyInput = prompt("Enter the quantity to borrow:");
-      const qty = qtyInput ? parseInt(qtyInput, 10) : NaN;
-
-      if (!itemCode || isNaN(qty) || qty <= 0) {
-        setError("Invalid item code or quantity.");
-        return;
-      }
-
-      const response = await axios.post(
-        `${API_BASE_URL}/volunteer/${scannedResult}/borrow`,
-        {
-          item_code: itemCode,
-          qty: qty,
-        }
-      );
-
-      alert("Item borrowed successfully!");
-      console.log("Borrow response:", response.data);
-    } catch (error) {
-      console.error("Error borrowing item:", error);
-      setError("Error borrowing item.");
-    }
+    setScanningMode("item");
   };
 
   const handleReturn = async () => {
     setMode("return");
+    setScanningMode(null); // Stop scanning
     try {
       const response = await axios.get(
         `${API_BASE_URL}/volunteer/${scannedResult}/borrowed-items`
@@ -105,49 +122,11 @@ const QRCodeScanner = () => {
     }
   };
 
-  const { getRootProps, getInputProps } = useDropzone({
-    accept: { "image/*": [] },
-    multiple: false,
-    onDrop: (acceptedFiles) => {
-      const file = acceptedFiles[0];
-      const reader = new FileReader();
-
-      reader.onload = (event) => {
-        const img = new Image();
-        img.onload = () => {
-          const canvas = document.createElement("canvas");
-          const context = canvas.getContext("2d");
-
-          if (context) {
-            canvas.width = img.width;
-            canvas.height = img.height;
-            context.drawImage(img, 0, 0, img.width, img.height);
-
-            const imageData = context.getImageData(
-              0,
-              0,
-              canvas.width,
-              canvas.height
-            );
-            const code = jsQR(imageData.data, canvas.width, canvas.height);
-
-            if (code) {
-              handleScan([{ rawValue: code.data }]);
-            } else {
-              setError("Unable to decode QR code from the image.");
-            }
-          }
-        };
-        img.src = event.target?.result as string;
-      };
-
-      reader.readAsDataURL(file);
-    },
-  });
-
   return (
-    <div className="relative bg-white border-2 border-gray-300 p-7 w-11/12 sm:w-11/12 md:w-10/12 lg:w-3/4 xl:w-1/3 flex flex-col items-center justify-center rounded-lg shadow-lg mt-20 mx-auto">
-      <h1 className="text-2xl font-bold text-center mb-4">Volunteer Scanner</h1>
+    <div className="relative bg-white border-2 border-gray-300 p-7 w-11/12 sm:w-11/12 md:w-10/12 lg:w-3/4 xl:w-1/3 flex flex-col items-center justify-center rounded-lg shadow-lg mt-20 mx-auto font-kamtumruy">
+      <h1 className="text-2xl text-center mb-4">
+        ស្គែនកាតអ្នកស្ម័គ្រចិត្ត
+      </h1>
 
       {error && (
         <div className="mb-4 p-3 bg-red-100 text-red-700 rounded">
@@ -156,13 +135,13 @@ const QRCodeScanner = () => {
       )}
 
       {volunteerInfo ? (
-        <div className="mb-4 p-3 bg-blue-100 text-blue-700 rounded">
+        <div className="mb-4 p-3 text-xl bg-blue-100 text-blue-700 rounded">
           <strong>Volunteer Information:</strong>
-          <p>Name: {volunteerInfo.name}</p>
-          <p>Khmer Name: {volunteerInfo.kh_name}</p>
-          <p>Team: {volunteerInfo.team}</p>
-          <p>Khmer Team: {volunteerInfo.kh_team}</p>
           <p>ID: {volunteerInfo.id}</p>
+          <p>Khmer Name: {volunteerInfo.kh_name}</p>
+          <p>Khmer Team: {volunteerInfo.kh_team}</p>
+          <p>Name: {volunteerInfo.name}</p>
+          <p>Team: {volunteerInfo.team}</p>
           <div className="mt-6 flex space-x-4">
             <button
               onClick={handleBorrow}
@@ -199,35 +178,31 @@ const QRCodeScanner = () => {
           )}
         </div>
       ) : (
-        <>
-          <div className="mb-6">
-            <div>
-              <Scanner
-                onScan={handleScan}
-                onError={handleError}
-                constraints={{
-                  facingMode: "environment",
-                }}
-              />
-            </div>
-          </div>
+        <div>
+          {/* <h2 className="text-lg font-medium mb-4">Scan Volunteer QR Code</h2> */}
+          <Scanner
+            onScan={handleScan}
+            onError={handleError}
+            constraints={{
+              facingMode: "environment",
+            }}
+            formats={["qr_code", "code_128"]} // Specify the formats to scan
+          />
+        </div>
+      )}
 
-          <div className="mt-6">
-            <h2 className="text-lg font-medium mb-2">
-              Scan QR Code from Image
-            </h2>
-            <div
-              {...getRootProps()}
-              className="border-2 border-dashed border-blue-500 rounded p-4 text-center bg-blue-50 cursor-pointer hover:bg-blue-100"
-            >
-              <input {...getInputProps()} />
-              <p className="text-gray-600">
-                Drag & drop an image with a QR code here, or{" "}
-                <span className="underline">click to select a file</span>.
-              </p>
-            </div>
-          </div>
-        </>
+      {scanningMode === "item" && (
+        <div className="mt-6">
+          <h2 className="text-lg font-medium mb-2">Scan Item Barcode</h2>
+          <Scanner
+            onScan={handleScan}
+            onError={handleError}
+            constraints={{
+              facingMode: "environment",
+            }}
+            formats={["qr_code", "code_128"]} // Specify the formats to scan
+          />
+        </div>
       )}
     </div>
   );

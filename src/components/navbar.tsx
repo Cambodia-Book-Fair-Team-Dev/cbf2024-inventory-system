@@ -7,13 +7,13 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <nav className="bg-primary text-primary-foreground p-4 fixed top-0 w-full z-10 shadow-md">
+    <nav className="bg-white text-primary-foreground p-4 fixed top-0 w-full z-10 font-kamtumruy ">
       <div className="container mx-auto flex justify-between items-center">
         <Link
           to="/"
-          className="text-xl flex items-center space-x-1 font-kamtumruy"
+          className="text-xl flex items-center space-x-1"
         >
-          <img src="cbflogo.png" alt="Logo" className="h-6 w-6" />
+          <img src="cbflogo_full.png" alt="Logo" className="h-12 w-12" />
           <span>បញ្ជីអីវ៉ាន់</span>
         </Link>
         <div className="hidden md:flex space-x-6">
