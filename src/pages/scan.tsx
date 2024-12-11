@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Scanner } from "@yudiel/react-qr-scanner";
 import axios from "axios";
 import { API_BASE_URL } from "../api/config";
-import PopupScanner from "../components/popupbarcode";
+import PopupScanner from "../components/barcode_popup";
 import ReturnPopup from "../components/return_popup";
 import VolunteerInfo from "../components/volunteer_info";
 

@@ -73,8 +73,8 @@ const PopupScanner: React.FC<PopupScannerProps> = ({
             </div>
           ) : (
             <div className="space-y-4">
-              <h3 className="text-lg font-bold">Item Information:</h3>
-              <div className="grid grid-cols-2 gap-2 text-sm">
+              <h3 className="text-xl font-bold">Item Information:</h3>
+              <div className="grid grid-cols-2 gap-2 text-lg">
                 <p className="font-semibold">Name:</p>
                 <p>{itemInfo.item_name}</p>
                 <p className="font-semibold">Category:</p>
