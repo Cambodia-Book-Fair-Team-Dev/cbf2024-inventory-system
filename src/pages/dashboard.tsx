@@ -37,8 +37,8 @@ const InventoryPage: React.FC = () => {
     <div className="min-h-screen bg-gray-100 font-kamtumruy">
       <div className="py-8 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
-          <h1 className="text-3xl font-extrabold text-gray-900 sm:text-4xl mb-6 mt-20">
-            Inventory Management
+          <h1 className="text-3xl font text-gray-900 sm:text-3xl mb-6 mt-20">
+            អីវ៉ាន់ដែលបានខ្ចី
           </h1>
           <div className="bg-white overflow-hidden shadow-xl sm:rounded-lg">
             {loading ? (

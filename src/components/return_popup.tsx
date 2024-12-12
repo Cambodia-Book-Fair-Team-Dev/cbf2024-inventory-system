@@ -10,7 +10,11 @@ interface ReturnPopupProps {
     borrow_time: string;
   }>;
   onClose: () => void;
-  onReturnItem: (transactionId: string, qty: number) => void;
+  onReturnItem: (
+    transactionId: string,
+    status: string,
+    qtyReturned: number
+  ) => void;
 }
 
 const ReturnPopup: React.FC<ReturnPopupProps> = ({
@@ -66,14 +70,34 @@ const ReturnPopup: React.FC<ReturnPopupProps> = ({
                   <td className="border border-gray-200 px-4 py-2 hidden md:table-cell">
                     {new Date(item.borrow_time).toLocaleString()}
                   </td>
-                  <td className="border border-gray-200 px-4 py-2 text-right">
+                  <td className="border border-gray-200 px-4 py-2 text-right space-y-2">
                     <button
                       onClick={() =>
-                        onReturnItem(item.transaction_id, item.qty_borrowed)
+                        onReturnItem(
+                          item.transaction_id,
+                          "returned",
+                          item.qty_borrowed
+                        )
+                      }
+                      className="bg-green-500 hover:bg-green-600 text-white font-semibold px-3 py-1 rounded"
+                    >
+                      Return
+                    </button>
+                    <button
+                      onClick={() =>
+                        onReturnItem(item.transaction_id, "used up", 0)
+                      }
+                      className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-3 py-1 rounded"
+                    >
+                      Used Up
+                    </button>
+                    <button
+                      onClick={() =>
+                        onReturnItem(item.transaction_id, "lost", 0)
                       }
                       className="bg-red-500 hover:bg-red-600 text-white font-semibold px-3 py-1 rounded"
                     >
-                      Return
+                      Lost
                     </button>
                   </td>
                 </tr>
@@ -81,14 +105,6 @@ const ReturnPopup: React.FC<ReturnPopupProps> = ({
             </tbody>
           </table>
         </div>
-        {/* <div className="p-4 border-t flex justify-end">
-          <button
-            onClick={onClose}
-            className="flex items-center bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold px-4 py-2 rounded"
-          >
-            <span className="mr-2">✖</span> Close
-          </button>
-        </div> */}
       </div>
     </div>
   );

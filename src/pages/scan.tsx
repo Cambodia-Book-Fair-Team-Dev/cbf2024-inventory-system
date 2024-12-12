@@ -76,28 +76,38 @@ const QRCodeScanner: React.FC = () => {
     }
   };
 
-  const handleReturnItem = async (transactionId: string, qty: number) => {
-    try {
-      const response = await axios.post(
-        `${API_BASE_URL}/volunteer/${scannedResult}/return`,
-        {
-          items: [
-            {
-              transaction_id: transactionId,
-              qty_returned: qty,
-            },
-          ],
-        }
-      );
+ const handleReturnItem = async (
+   transactionId: string,
+   status: string,
+   qtyReturned: number
+ ) => {
+   try {
+     const response = await axios.post(
+       `${API_BASE_URL}/volunteer/${scannedResult}/return`,
+       {
+         items: [
+           {
+             transaction_id: transactionId,
+             status: status,
+             qty_returned: qtyReturned,
+           },
+         ],
+       },
+       {
+         headers: {
+           "Content-Type": "application/json",
+         },
+       }
+     );
 
-      alert("Item returned successfully!");
-      console.log("Return response:", response.data);
-      handleReturn();
-    } catch (error) {
-      console.error("Error returning item:", error);
-      setError("Error returning item.");
-    }
-  };
+     alert(`Item ${status} successfully!`);
+     console.log("Return response:", response.data);
+     handleReturn();
+   } catch (error) {
+     console.error(`Error ${status} item:`, error);
+     setError(`Error ${status} item.`);
+   }
+ };
 
   const handleBorrowItem = async (itemCode: string, quantity: number) => {
     try {
