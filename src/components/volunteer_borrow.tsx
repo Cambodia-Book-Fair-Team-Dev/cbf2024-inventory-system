@@ -92,7 +92,11 @@ const Table = ({ data }: { data: TableData[] }) => {
               >
                 <option value="">All Teams</option>
                 <option value="Core Team">Core Team</option>
-                <option value="Team B">Team B</option>
+                <option value="Event Facilitator">Event Facilitator</option>
+                <option value="Operation">Operation</option>
+                <option value="Procurement">Procurement</option>
+                <option value="Event Facilitator">Sale</option>
+                <option value="Public Relations">Public Relations</option>
               </select>
               <Filter className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
             </div>
@@ -105,6 +109,8 @@ const Table = ({ data }: { data: TableData[] }) => {
                 <option value="">All Statuses</option>
                 <option value="borrowed">Borrowed</option>
                 <option value="returned">Returned</option>
+                <option value="lost">Lost</option>
+                <option value="used up">Uesd up</option>
               </select>
               <Filter className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
             </div>

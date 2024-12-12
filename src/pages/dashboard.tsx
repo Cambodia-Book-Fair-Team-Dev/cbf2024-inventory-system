@@ -33,20 +33,44 @@ const InventoryPage: React.FC = () => {
     fetchData();
   }, []);
 
+  const SkeletonLoader = () => (
+    <div className="animate-pulse">
+      <div className="hidden sm:grid sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4 p-4 bg-gray-100">
+        {[...Array(8)].map((_, index) => (
+          <div key={index} className="h-6 bg-gray-300 rounded"></div>
+        ))}
+      </div>
+      {[...Array(5)].map((_, rowIndex) => (
+        <div
+          key={rowIndex}
+          className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4 p-4 border-b border-gray-200"
+        >
+          {[...Array(8)].map((_, colIndex) => (
+            <div key={colIndex} className="h-4 bg-gray-200 rounded"></div>
+          ))}
+        </div>
+      ))}
+    </div>
+  );
+
   return (
-    <div className="min-h-screen bg-gray-100 font-kamtumruy">
+    <div className="min-h-screen bg-gray-100 font-kamtumruy mt-5">
       <div className="py-8 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
-          <h1 className="text-3xl font text-gray-900 sm:text-3xl mb-6 mt-20">
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-6 mt-10 sm:mt-20">
             អីវ៉ាន់ដែលបានខ្ចី
           </h1>
           <div className="bg-white overflow-hidden shadow-xl sm:rounded-lg">
             {loading ? (
-              <div className="p-6 text-center text-gray-500">Loading...</div>
+              <div className="overflow-x-auto">
+                <SkeletonLoader />
+              </div>
             ) : error ? (
               <div className="p-6 text-center text-red-500">{error}</div>
             ) : (
-              <DataTable data={data} />
+              <div className="overflow-x-auto">
+                <DataTable data={data} />
+              </div>
             )}
           </div>
         </div>

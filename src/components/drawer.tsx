@@ -37,7 +37,7 @@ export function Drawer({ isOpen, onClose, children }: DrawerProps) {
                 leaveTo="translate-x-full"
               >
                 <Dialog.Panel className="pointer-events-auto relative w-screen max-w-md">
-                  <div className="flex h-full flex-col overflow-y-scroll bg-primary py-6 shadow-xl">
+                  <div className="flex h-full flex-col overflow-y-scroll bg-white py-6 shadow-xl">
                     <div className="px-4 sm:px-6">
                       <div className="flex items-start justify-between">
                         <Dialog.Title className="text-lg font-medium text-primary-foreground">

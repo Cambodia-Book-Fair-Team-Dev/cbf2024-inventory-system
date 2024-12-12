@@ -52,17 +52,26 @@ export default function Navbar() {
 
       <Drawer isOpen={isOpen} onClose={() => setIsOpen(false)}>
         <div className="flex flex-col space-y-4">
-          <MobileNavLink to="/" icon={<Home className="h-4 w-4" />}>
+          <MobileNavLink
+            to="/"
+            icon={<Home className="h-4 w-4" />}
+            onClick={() => setIsOpen(false)}
+          >
             Dashboard
           </MobileNavLink>
-          <MobileNavLink to="/scan" icon={<Scan className="h-4 w-4" />}>
+          <MobileNavLink
+            to="/scan"
+            icon={<Scan className="h-4 w-4" />}
+            onClick={() => setIsOpen(false)}
+          >
             Scan
           </MobileNavLink>
-          <MobileNavLink to="/about" icon={<Info className="h-4 w-4" />}>
-            About
-          </MobileNavLink>
-          <MobileNavLink to="/contact" icon={<Phone className="h-4 w-4" />}>
-            Contact
+          <MobileNavLink
+            to="/item"
+            icon={<Info className="h-4 w-4" />}
+            onClick={() => setIsOpen(false)}
+          >
+            Item
           </MobileNavLink>
         </div>
       </Drawer>
@@ -94,15 +103,18 @@ function MobileNavLink({
   to,
   children,
   icon,
+  onClick,
 }: {
   to: string;
   children: React.ReactNode;
   icon: React.ReactNode;
+  onClick?: () => void;
 }) {
   return (
     <Link
       to={to}
       className="flex items-center space-x-2 text-primary-foreground hover:bg-primary-foreground/10 px-3 py-2 rounded-md transition-colors"
+      onClick={onClick}
     >
       {icon}
       <span>{children}</span>
