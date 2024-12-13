@@ -187,7 +187,7 @@ const Table = ({ data }: { data: TableData[] }) => {
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <span
-                    className={`px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                    className={`px-2 py-1 inline-flex text-lg leading-5 rounded-full ${
                       item.status === "borrowed"
                         ? "bg-yellow-100 text-yellow-800"
                         : item.status === "lost"
@@ -197,7 +197,15 @@ const Table = ({ data }: { data: TableData[] }) => {
                         : "bg-green-100 text-green-800"
                     }`}
                   >
-                    {item.status}
+                    {item.status === "lost"
+                      ? "បាត់"
+                      : item.status === "used up"
+                      ? "ប្រេីអស់"
+                      : item.status === "returned"
+                      ? "បានសង"
+                      : item.status === "borrowed"
+                      ? "កំពុងខ្ចី"
+                      : item.status}
                   </span>
                 </td>
               </tr>

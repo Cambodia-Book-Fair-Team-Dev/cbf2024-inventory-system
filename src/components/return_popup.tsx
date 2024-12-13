@@ -90,7 +90,7 @@ const ReturnPopup: React.FC<ReturnPopupProps> = ({
                   <td className="border px-4 py-2 text-right">
                     <div className="space-x-2">
                       <button
-                        className="bg-green-500 hover:bg-green-600 text-white font-semibold px-3 py-1 rounded text-sm"
+                        className="bg-green-500 hover:bg-green-600 text-white font-semibold px-3 py-1 rounded text-m"
                         onClick={() =>
                           handleActionClick(
                             item.transaction_id,
@@ -99,10 +99,10 @@ const ReturnPopup: React.FC<ReturnPopupProps> = ({
                           )
                         }
                       >
-                        Return
+                        សង់
                       </button>
                       <button
-                        className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-3 py-1 rounded text-sm"
+                        className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-3 py-1 rounded text-m"
                         onClick={() =>
                           handleActionClick(
                             item.transaction_id,
@@ -111,10 +111,10 @@ const ReturnPopup: React.FC<ReturnPopupProps> = ({
                           )
                         }
                       >
-                        Used Up
+                        ប្រើអស់
                       </button>
                       <button
-                        className="bg-red-500 hover:bg-red-600 text-white font-semibold px-3 py-1 rounded text-sm"
+                        className="bg-red-500 hover:bg-red-600 text-white font-semibold px-3 py-1 rounded text-m"
                         onClick={() =>
                           handleActionClick(
                             item.transaction_id,
@@ -123,7 +123,7 @@ const ReturnPopup: React.FC<ReturnPopupProps> = ({
                           )
                         }
                       >
-                        Lost
+                        បាត់
                       </button>
                     </div>
                   </td>

@@ -58,7 +58,7 @@ const InventoryPage: React.FC = () => {
       <div className="py-8 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-6 mt-10 sm:mt-20">
-            អីវ៉ាន់ដែលបានខ្ចី
+            Inventory
           </h1>
           <div className="bg-white overflow-hidden shadow-xl sm:rounded-lg">
             {loading ? (
