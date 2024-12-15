@@ -35,12 +35,12 @@ export default function Navbar() {
           >
             Item
           </NavLink>
-          <NavLink
+          {/* <NavLink
             to="/contact"
             icon={<span className="material-symbols-outlined">category</span>}
           >
             Contact
-          </NavLink>
+          </NavLink> */}
         </div>
         <button
           className="md:hidden text-primary-foreground"

@@ -3,12 +3,14 @@ import Navbar from "./components/navbar";
 import QRCodeScanner from "./pages/scan";
 import ItemTable from "./pages/item";
 import InventoryPage from "./pages/dashboard";
+import { Toaster } from "react-hot-toast";
 
 
 function App() {
   return (
     <div>
       <Navbar />
+      <Toaster />
       <Routes>
         <Route path="/" element={<InventoryPage />} />
         <Route path="/scan" element={<QRCodeScanner />} />

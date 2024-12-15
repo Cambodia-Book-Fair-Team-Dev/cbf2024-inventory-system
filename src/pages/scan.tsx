@@ -5,6 +5,7 @@ import { API_BASE_URL } from "../api/config";
 import PopupScanner from "../components/barcode_popup";
 import ReturnPopup from "../components/return_popup";
 import VolunteerInfo from "../components/volunteer_info";
+import toast from "react-hot-toast";
 
 const QRCodeScanner: React.FC = () => {
   const [scannedResult, setScannedResult] = useState<string | null>(null);
@@ -76,38 +77,38 @@ const QRCodeScanner: React.FC = () => {
     }
   };
 
- const handleReturnItem = async (
-   transactionId: string,
-   status: string,
-   qtyReturned: number
- ) => {
-   try {
-     const response = await axios.post(
-       `${API_BASE_URL}/volunteer/${scannedResult}/return`,
-       {
-         items: [
-           {
-             transaction_id: transactionId,
-             status: status,
-             qty_returned: qtyReturned,
-           },
-         ],
-       },
-       {
-         headers: {
-           "Content-Type": "application/json",
-         },
-       }
-     );
+  const handleReturnItem = async (
+    transactionId: string,
+    status: string,
+    qtyReturned: number
+  ) => {
+    try {
+      const response = await axios.post(
+        `${API_BASE_URL}/volunteer/${scannedResult}/return`,
+        {
+          items: [
+            {
+              transaction_id: transactionId,
+              status: status,
+              qty_returned: qtyReturned,
+            },
+          ],
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
-     alert(`Item ${status} successfully!`);
-     console.log("Return response:", response.data);
-     handleReturn();
-   } catch (error) {
-     console.error(`Error ${status} item:`, error);
-     setError(`Error ${status} item.`);
-   }
- };
+      toast.success(`Item ${status} successfully!`);
+      console.log("Return response:", response.data);
+      handleReturn();
+    } catch (error) {
+      console.error(`Error ${status} item:`, error);
+      setError(`Error ${status} item.`);
+    }
+  };
 
   const handleBorrowItem = async (itemCode: string, quantity: number) => {
     try {
@@ -118,7 +119,7 @@ const QRCodeScanner: React.FC = () => {
           qty: quantity,
         }
       );
-      alert("Item borrowed successfully!");
+      toast.success("Item borrowed successfully!");
       console.log("Borrow response:", response.data);
       setIsPopupOpen(false);
     } catch (error) {
