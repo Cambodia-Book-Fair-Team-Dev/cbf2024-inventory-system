@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Home, Info, Phone, Scan, Menu } from "lucide-react";
+import { Home, Info, Scan, Menu } from "lucide-react";
 import { Drawer } from "../components/drawer.jsx";
 import { Link } from "react-router-dom";
 

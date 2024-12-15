@@ -12,13 +12,13 @@ const QRCodeScanner: React.FC = () => {
   const [volunteerInfo, setVolunteerInfo] = useState<any | null>(null);
   const [borrowedItems, setBorrowedItems] = useState<any[]>([]);
   const [error, setError] = useState<string | null>(null);
-  const [mode, setMode] = useState<"borrow" | "return" | null>(null);
+  const [, setMode] = useState<"borrow" | "return" | null>(null);
   const [scanningMode, setScanningMode] = useState<"volunteer" | "item" | null>(
     "volunteer"
   );
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [isReturnPopupOpen, setIsReturnPopupOpen] = useState(false);
-  const [itemInfo, setItemInfo] = useState<any | null>(null);
+  const [, setItemInfo] = useState<any | null>(null);
 
   const handleScan = async (detectedCodes: Array<{ rawValue: string }>) => {
     if (detectedCodes.length > 0) {

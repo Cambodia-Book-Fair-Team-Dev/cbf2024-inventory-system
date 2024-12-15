@@ -13,7 +13,6 @@ interface PopupScannerProps {
 }
 
 const PopupScanner: React.FC<PopupScannerProps> = ({
-  onScan,
   onError,
   onClose,
   onItemInfoFetched,
