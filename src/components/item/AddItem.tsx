@@ -105,14 +105,17 @@ export default function AddItemModal({ onClose, onAdd }: AddItemModalProps) {
             >
               Category ID
             </label>
-            <input
-              type="text"
+            <select
               id="categoryId"
               value={categoryId}
               onChange={(e) => setCategoryId(e.target.value)}
               className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
               required
-            />
+            >
+              <option value="">Select Category</option>
+              <option value="C1">អីវ៉ានប្រេីអស់</option>
+              <option value="C2">អីវ៉ាន់ប្រេីមិនអស់</option>
+            </select>
           </div>
           {error && <p className="text-red-500 mb-4">{error}</p>}
           <div className="flex justify-end space-x-2">

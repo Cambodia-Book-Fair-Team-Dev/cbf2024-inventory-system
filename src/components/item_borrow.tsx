@@ -161,7 +161,7 @@ const Table = ({ data }: { data: TableData[] }) => {
               ))}
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-200">
+          <tbody className="divide-y divide-gray-200 text-lg">
             {filteredAndSortedData.map((item, index) => (
               <tr key={index} className="hover:bg-gray-50 transition-colors">
                 <td className="px-6 py-4 whitespace-nowrap">
@@ -178,11 +178,11 @@ const Table = ({ data }: { data: TableData[] }) => {
                   {item.qty_borrowed}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  {format(new Date(item.borrow_time), "yyyy-MM-dd HH:mm:ss")}
+                  {format(new Date(item.borrow_time), "yyyy-MM-dd hh:mm:ss a")}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   {item.return_time
-                    ? format(new Date(item.return_time), "yyyy-MM-dd HH:mm:ss")
+                    ? format(new Date(item.return_time), "yyyy-MM-dd hh:mm:ss a")
                     : "-"}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">

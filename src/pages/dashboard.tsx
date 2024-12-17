@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import DataTable from "../components/volunteer_borrow";
+import DataTable from "../components/item_borrow";
 import { API_BASE_URL } from "../api/config";
 
 const InventoryPage: React.FC = () => {
